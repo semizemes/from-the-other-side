@@ -17,10 +17,17 @@ export async function serveStatic(req, res, baseDir) {
   } catch (err) {
     console.log(err.code);
     if (err.code == "ENOENT") {
-      const content = await fs.readFile(path.join(baseDir, "public", "404.html"));
+      const content = await fs.readFile(
+        path.join(baseDir, "public", "404.html"),
+      );
       sendResponse(res, 404, getContentType(ext), content);
-    } else{
-      sendResponse(res, 500, getContentType(ext), `<html><h1>Server Error: ${err.code}</h1></html>`);
+    } else {
+      sendResponse(
+        res,
+        500,
+        getContentType(ext),
+        `<html><h1>Server Error: ${err.code}</h1></html>`,
+      );
     }
   }
 }
