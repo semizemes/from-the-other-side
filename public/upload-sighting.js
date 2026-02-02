@@ -57,7 +57,12 @@ form.addEventListener("submit", async function (event) {
       console.error("Server Error:", response.statusText)
     }
   } catch (error) {
-    formMessageText.textContent = `Serious ghouls! Please try again.`
+    // Network error - likely no backend server running (e.g., on static hosting)
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      formMessageText.textContent = `Upload requires the server to be running. This feature is not available on static hosting.`
+    } else {
+      formMessageText.textContent = `Serious ghouls! Please try again.`
+    }
     console.error("Error:", error)
   }
 })

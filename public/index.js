@@ -1,5 +1,13 @@
 try {
-  const data = await fetch("/api")
+  // Try to fetch from the API first (for local development with server)
+  // Fall back to static data.json for GitHub Pages deployment
+  let data
+  try {
+    data = await fetch("/api")
+    if (!data.ok) throw new Error("API not available")
+  } catch {
+    data = await fetch("/data.json")
+  }
   const response = await data.json()
   renderCards(response)
 } catch (err) {
